@@ -119,7 +119,7 @@ def main():
 	, key = "guessInput")
 	
 	#If user loses
-	if st.session_state.tries >= 5:
+	if st.session_state.tries >= 5 and guessName != secretName:
 		st.session_state.game_over = True
 		st.write("You Lose! The Hitter was " + secretName)
 		st.video(winVideo_path, autoplay = True, muted = True, loop = True)
