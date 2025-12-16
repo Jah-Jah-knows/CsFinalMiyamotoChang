@@ -119,24 +119,22 @@ def main():
 	, key = "guessInput")
 	
 	#If user loses
-	# If game is over (Lose or Win), show the final video and stop
 	if st.session_state.game_over:
 		st.write(f"The Hitter was {secretName}")
 		video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
 		inputText.empty()
 		
-	# If game is NOT over, show the silhouette and check the guess
+	# If game is not over, show the silhouette and check the guess
 	else:
 		# Check if a guess was made
 		if guessName and guessName != secretName and guessName in PlayerInfo.playerDict:
 			st.session_state.tries += 1
 			st.write(f"{guessName} is not the right hitter")
 		
-		# Check for loss *after* incrementing tries
+		
 		if st.session_state.tries >= 5 and guessName != secretName:
 			st.session_state.game_over = True
-			# NOTE: The video will display in the 'if st.session_state.game_over:' block above on the next run.
-		
+			
 		# Show the current silhouette
 		if not st.session_state.game_over:
 			video_placeholder.video(targetVideo_path, autoplay = True, muted = True, loop = True)
