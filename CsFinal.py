@@ -126,7 +126,7 @@ def main():
 		inputText.empty()
 		
 	# show silhouette video
-	if guessName != secretName and st.session_state.tries <= 5:
+	if guessName != secretName and st.session_state.tries <= 4:
 		st.video(targetVideo_path, autoplay = True, muted = True, loop = True)	
 	
 	#If guess is correct
