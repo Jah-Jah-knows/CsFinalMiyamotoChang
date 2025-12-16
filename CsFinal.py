@@ -144,6 +144,7 @@ def main():
 			st.session_state.tries += 1
 			st.session_state.game_over = True
 			st.write("You Win! The hitter is " + str(secretName))
+			video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
 			st.write("You got it in " + str(st.session_state.tries) + " tries")
 			inputText.empty()
 
