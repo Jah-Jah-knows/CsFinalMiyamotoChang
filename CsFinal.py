@@ -119,35 +119,39 @@ def main():
 	, key = "guessInput")
 	
 	#If user loses
-	if st.session_state.tries >= 5 and guessName != secretName:
-		st.session_state.game_over = True
-		st.write("You Lose! The Hitter was " + secretName)
+	# If game is over (Lose or Win), show the final video and stop
+	if st.session_state.game_over:
+		st.write(f"The Hitter was {secretName}")
 		video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
 		inputText.empty()
 		
-	# show silhouette video
-	if guessName != secretName and st.session_state.tries <= 4:
-		video_placeholder.video(targetVideo_path, autoplay = True, muted = True, loop = True)	
-	
-	#If guess is correct
-	if guessName == secretName:
-		st.session_state.tries += 1
-		st.write("You Win! The hitter is " + str(secretName))
-		video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
-		st.session_state.game_over = True
-		st.write("You got it in " + str(st.session_state.tries) + " tries")
-		inputText.empty()
-	
-	#If game is over prompt for play again
+	# If game is NOT over, show the silhouette and check the guess
+	else:
+		# Check if a guess was made
+		if guessName and guessName != secretName and guessName in PlayerInfo.playerDict:
+			st.session_state.tries += 1
+			st.write(f"{guessName} is not the right hitter")
+		
+		# Check for loss *after* incrementing tries
+		if st.session_state.tries >= 5 and guessName != secretName:
+			st.session_state.game_over = True
+			# NOTE: The video will display in the 'if st.session_state.game_over:' block above on the next run.
+		
+		# Show the current silhouette
+		if not st.session_state.game_over:
+			video_placeholder.video(targetVideo_path, autoplay = True, muted = True, loop = True)
+			
+		# Check for win (only runs if game is NOT over, but needs to be placed carefully)
+		if guessName == secretName and guessName is not None:
+			st.session_state.tries += 1
+			st.session_state.game_over = True
+			st.write("You Win! The hitter is " + str(secretName))
+			st.write("You got it in " + str(st.session_state.tries) + " tries")
+			inputText.empty()
+
+	# If game is over prompt for play again
 	if st.session_state.game_over:
 		st.button("Play Again", on_click = resetGame)
-	
-	#If guess is incorrect
-	if guessName != "" and guessName not in PlayerInfo.playerDict:
-		st.write("Player not found!")
-	elif guessName in PlayerInfo.playerDict and guessName != secretName:
-		st.write(str(guessName) + " is not the right hitter")
-		st.session_state.tries += 1
 	
 	#On guess, create table with guess history
 	if guessName:
