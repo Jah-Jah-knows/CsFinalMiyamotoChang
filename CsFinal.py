@@ -77,7 +77,7 @@ def main():
 	#put title on screen.
 	st.markdown("<h1 style='text-align: center; color: #26A3FF;'>Batter Up!</h1>", unsafe_allow_html=True)
 	st.markdown("<h2 style='text-align: center; color: #FFDE00;'>Whitman Baseball Edition</h2>", unsafe_allow_html=True)
-	
+	video_placeholder = st.empty()
 	#Create and shuffle list of player names
 	if "remaining" not in st.session_state:
 		st.session_state.remaining = list(PlayerInfo.playerDict.keys())
@@ -122,18 +122,18 @@ def main():
 	if st.session_state.tries >= 5 and guessName != secretName:
 		st.session_state.game_over = True
 		st.write("You Lose! The Hitter was " + secretName)
-		st.video(winVideo_path, autoplay = True, muted = True, loop = True)
+		video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
 		inputText.empty()
 		
 	# show silhouette video
 	if guessName != secretName and st.session_state.tries <= 4:
-		st.video(targetVideo_path, autoplay = True, muted = True, loop = True)	
+		video_placeholder.video(targetVideo_path, autoplay = True, muted = True, loop = True)	
 	
 	#If guess is correct
 	if guessName == secretName:
 		st.session_state.tries += 1
 		st.write("You Win! The hitter is " + str(secretName))
-		st.video(winVideo_path, autoplay = True, muted = True, loop = True)
+		video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
 		st.session_state.game_over = True
 		st.write("You got it in " + str(st.session_state.tries) + " tries")
 		inputText.empty()
