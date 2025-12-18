@@ -101,7 +101,7 @@ def main():
 	#Create path for videos in folder Swings
 	targetVideo_path = f"Swings/{targetVideo}" 
 	winVideo_path = f"Swings/{winVideo}"
-	
+	lossVideo_path = f"Swings/{winVideo}"
 	#Initialize game state
 	if "game_over" not in st.session_state:
 		st.session_state.game_over = False
@@ -121,7 +121,7 @@ def main():
 	#If user loses
 	if st.session_state.game_over:
 		st.write(f"The Hitter was {secretName}")
-		video_placeholder.video(winVideo_path, autoplay = True, muted = True, loop = True)
+		video_placeholder.video(lossVideo_path, autoplay = True, muted = True, loop = True)
 		inputText.empty()
 		
 	# If game is not over, show the silhouette and check the guess
