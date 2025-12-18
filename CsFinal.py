@@ -102,6 +102,7 @@ def main():
 	targetVideo_path = f"Swings/{targetVideo}" 
 	winVideo_path = f"Swings/{winVideo}"
 	lossVideo_path = f"Swings/{winVideo}"
+	
 	#Initialize game state
 	if "game_over" not in st.session_state:
 		st.session_state.game_over = False
